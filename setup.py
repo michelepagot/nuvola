@@ -22,6 +22,7 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     install_requires=[
         "bs4",
+        "lxml",
         "requests",
         "datetime",
         "simplejson"

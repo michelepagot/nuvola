@@ -110,7 +110,8 @@ class Nuvola:
                     "timeWindows": None
                 }
 
-            if options.get("student_id") is None:
+            self_.id_student = options.get("student_id")
+            if self_.id_student is None:
                 self_.print(":: Init :: Retriving Student Id")
                 self_.id_student = self.__get_student_id()
             self_.print(":: Init :: Homeworks...", end="")
@@ -169,6 +170,8 @@ class Nuvola:
         """
         url = "https://nuvola.madisoft.it/api-studente/v1/alunno/{}/{}".format(self.id_student, call)
         d = self.conn.get_data(url)
+        if "code" in d and d["code"] == 404:
+            raise self.MissingPageException(f"url {url} not exist.")
         return d["valori"]
 
     def get_custom(self, custom_url):
@@ -948,4 +951,7 @@ class Nuvola:
         pass
 
     class AmbiguousIDException(Exception):
+        pass
+
+    class MissingPageException(Exception):
         pass
